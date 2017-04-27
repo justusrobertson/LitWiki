@@ -1,0 +1,82 @@
+$$\       $$$$$$\ $$$$$$$$\ $$\      $$\ $$$$$$\ $$\   $$\ $$$$$$\ 
+$$ |      \_$$  _|\__$$  __|$$ | $\  $$ |\_$$  _|$$ | $$  |\_$$  _|
+$$ |        $$ |     $$ |   $$ |$$$\ $$ |  $$ |  $$ |$$  /   $$ |  
+$$ |        $$ |     $$ |   $$ $$ $$\$$ |  $$ |  $$$$$  /    $$ |  
+$$ |        $$ |     $$ |   $$$$  _$$$$ |  $$ |  $$  $$<     $$ |  
+$$ |        $$ |     $$ |   $$$  / \$$$ |  $$ |  $$ |\$$\    $$ |  
+$$$$$$$$\ $$$$$$\    $$ |   $$  /   \$$ |$$$$$$\ $$ | \$$\ $$$$$$\ 
+\________|\______|   \__|   \__/     \__|\______|\__|  \__|\______|
+                                                                   
+                                                                   
+LitWiki
+By Justus Robertson
+-------------------
+
+LitWiki is a TiddlyWiki and set of tools meant for creating and storing a linked set of notes and facts on a body of academic literature. LitWiki was created by me, Justus Robertson. I find it helpful when learning a subject to play with its individual elements and construct their shared story. This is my playground for constructing those stories with academic literature. Specifically, LitWiki is for exploring, summarizing, and linking together different academic papers. To ease the authorship burden, I have created an automated pipeline for importing paper entries into LitWiki and exporting paper entries out to a BibTex file, which is commonly used for linking references in academic publications. For information on how to import and export BibTex data, see Using LitWiki.
+
+LitWiki is bundled with two Python scripts: import and export. Import takes as input a single BibTex entry and a PDF file and automatically constructs a LitWiki entry using the information that links to the PDF. Export creates a BibTex file that contains an entry for each paper imported into LitWiki. This page describes how to set up a Python environment and run the two helper scripts.
+
+------------------
+Configuring Python
+------------------
+
+First up, be sure to download and install Python. Once installed, you will need to download two additional libraries for the scripts to work:
+
+* Beautiful Soup for parsing HTML
+* BibtexParser for parsing BibTex
+
+The easiest way to install these libraries is with Pip. Pip installs packages with the command:
+
+>pip install package-name
+
+----------------
+Importing Papers
+----------------
+
+Once your environment is set up you will be able to run the importer with the command:
+
+>python import.py
+
+There are seven command line flags that affect the importing process:
+
+* -bib - Allows users to specify the location of the file containing a single BibTex entry. By default this file is located at ./import.bib.
+* -pub - Allows users to specify a URL for the LitWiki entry. For journal articles, this links the journal that published the article. For books, this links the book series. For conference papers, this links the conference that published the proceedings.
+* -org - Allows users to specify a URL for the LitWiki entry. This URL is for whatever organization publishes the journal, runs the conference, etc.
+* -tags - A list of tags that will be applied to the LitWiki entry for indexing. The tags should specify what general areas the paper is in (e.g. Computer Science, Artificial Intelligence). Tags should be entered in a quote surrounded, comma separated list: "Computer Science, Artificial Intelligence"
+* -file - Specifies where the new Wiki will be saved. The default is ./LitWikiTest.html, a file that can be used to test whether the entry was imported correctly. It is encouraged not to input custom file locations.
+* -paper - Specifies where the PDF paper can be found. The default is ./paper.pdf. It is encouraged to always save a paper being imported as paper.pdf in the main directory.
+* -overwrite - A shortcut for "-file ./LitWiki.html". Tells import.py to overwrite the main LitWiki HTML file. It is recommended to use this once the import has been tested on ./LitWikiTest.html.
+
+As an example, one of my papers, called "Automated Gameplay Generation from Declarative World Representations" is included as ./paper.pdf and its BibTex entry is included in import.bib:
+
+@inproceedings{Robertson2015, title={Automated Gameplay Generation from Declarative World Representations}, author={Robertson, Justus and Young, R. Michael}, booktitle = {Conference on Artificial Intelligence and Interactive Digital Entertainment}, series = {AIIDE}, number = {11}, pages = {72-28}, organization = {The Association for the Advancement of Artificial Intelligence}, year = {2015}}
+
+To import the entry into LitWikiTest, run the following command:
+
+>python import.py -tags "Computer Science, Artificial Intelligence" -pub  http://www.aaai.org/Conferences/AIIDE/aiide.php -org https://www.aaai.org
+
+This uses all default file locations, attaches two tags to the entry, and adds a publication and organization link. Open LitWikiTest and verify the paper entry has been added correctly. Once finished, use the following command to update the main LitWiki HTML file:
+
+>python import.py -tags "Computer Science, Artificial Intelligence" -pub http://www.aaai.org/Conferences/AIIDE/aiide.php -org https://www.aaai.org -overwrite
+
+This should add the paper entry to the main HTML file.
+
+----------------
+Exporting BibTex
+----------------
+
+Once you've accumulated a collection of paper entries, you may want to export the BibTex entries to use in your own paper. To do this, you can run the automated BibTex exporter with the command:
+
+>python export.py
+
+Export has two command line arguments:
+
+* -bib - Specifies the file location of the output BibTex file. By default, this file is ./export.bib.
+* -wiki - Specifies the file location of the LitWiki input. By default, this file is ./LitWiki.html.
+If you imported the test paper in the last section, running the export script will create a file that looks something like this:
+
+@inproceedings{Cardona-Rivera2014, author = {Cardona-Rivera, Rogelio E. and Robertson, Justus and Ware, Stephen G. and Harrison, Brent E. and Roberts, David L. and Young, R. Michael}, booktitle = {Conference on Artificial Intelligence and Interactive Digital Entertainment}, number = {10}, organization = {The Association for the Advancement of Artificial Intelligence}, series = {AIIDE}, title = {Foreseeing Meaningful Choices}, year = {2014} }
+
+@inproceedings{Robertson2015, author = {Robertson, Justus and Young, R. Michael}, booktitle = {Conference on Artificial Intelligence and Interactive Digital Entertainment}, number = {11}, organization = {The Association for the Advancement of Artificial Intelligence}, pages = {72-28}, series = {AIIDE}, title = {Automated Gameplay Generation from Declarative World Representations}, year = {2015} }
+
+@article{Young2013, author = {Young, R. Michael and Ware, Stephen and Cassell, Brad and Robertson, Justus}, journal = {SDV: Sprache und Datenverarbeitung: International Journal for Language Data Processing}, number = {1-2}, pages = {41–64}, title = {Plans and Planning in Narrative Generation: A Review of Plan-Based Approaches to the Generation of Story, Discourse and Interactivity in Narratives}, volume = {37}, year = {2013} }
