@@ -11,8 +11,7 @@ $$$$$$$$\ $$$$$$\    $$ |   $$  /   \$$ |$$$$$$\ $$ | \$$\ $$$$$$\
 LitWiki
 By Justus Robertson
 -------------------
-
-LitWiki is a TiddlyWiki and set of tools meant for creating and storing a linked set of notes and facts on a body of academic literature. LitWiki was created by me, Justus Robertson. I find it helpful when learning a subject to play with its individual elements and construct their shared story. This is my playground for constructing those stories with academic literature. Specifically, LitWiki is for exploring, summarizing, and linking together different academic papers. To ease the authorship burden, I have created an automated pipeline for importing paper entries into LitWiki and exporting paper entries out to a BibTex file, which is commonly used for linking references in academic publications. For information on how to import and export BibTex data, see Using LitWiki.
+LitWiki is a TiddlyWiki and set of tools meant for creating and storing a linked set of notes and facts on a body of academic literature. LitWiki is for exploring, summarizing, and linking together different academic papers. To ease the authorship burden, I have created an automated pipeline for importing paper entries into LitWiki and exporting paper entries out to a BibTex file, which is commonly used for linking references in academic publications. For information on how to import and export BibTex data, see Using LitWiki.
 
 LitWiki is bundled with two Python scripts: import and export. Import takes as input a single BibTex entry and a PDF file and automatically constructs a LitWiki entry using the information that links to the PDF. Export creates a BibTex file that contains an entry for each paper imported into LitWiki. This page describes how to set up a Python environment and run the two helper scripts.
 
