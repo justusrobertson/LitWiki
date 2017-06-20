@@ -159,6 +159,13 @@ if 'organization' in bibtex:
 	else:
 		postAuthorStr += '|!Organization|{{!!organization}}|\n'
 
+if 'school' in bibtex:
+   tag.attrs['school'] = bibtex['school']
+   if bibtex['ENTRYTYPE'] == "mastersthesis" or bibtex['ENTRYTYPE'] == "phdthesis":
+      postAuthorStr += '|!School|<a target="_blank" href={{!!orglink}}>{{!!school}}</a>|\n'
+   else:
+      postAuthorStr += '|!School|{{!!school}}|\n'
+      
 if 'year' in bibtex:
 	tag.attrs['year'] = bibtex['year']
 	formattedTags.append(bibtex['year'])
@@ -187,8 +194,10 @@ preTag = soup.new_tag('pre')
 
 preAuthorStr = '|!Authors|'
 for i in range(0, len(authors)):
-	if i < len(authors) - 1:
+	if i < len(authors) - 1 and len(authors) > 2:
 		preAuthorStr += '<$link to={{!!author' + str(i + 1) + '}}>{{!!author' + str(i + 1) + '}}</$link>, '
+	elif i < len(authors) - 1:
+		preAuthorStr += '<$link to={{!!author' + str(i + 1) + '}}>{{!!author' + str(i + 1) + '}}</$link> '
 	elif len(authors) > 1:
 		preAuthorStr += 'and <$link to={{!!author' + str(i + 1) + '}}>{{!!author' + str(i + 1) + '}}</$link>|'
 	else:
